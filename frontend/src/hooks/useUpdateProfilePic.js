@@ -20,9 +20,13 @@ const useUpdateProfilePic = () => {
 				throw new Error(data.error);
 			}
 
+			// Preserve existing token
+			const currentUser = JSON.parse(localStorage.getItem("chat-user")) || {};
+			const updatedUserData = { ...data, token: currentUser.token };
+
 			// data is the updated User model object sent from the backend
-			localStorage.setItem("chat-user", JSON.stringify(data));
-			setAuthUser(data);
+			localStorage.setItem("chat-user", JSON.stringify(updatedUserData));
+			setAuthUser(updatedUserData);
 
 			toast.success("Profile picture updated successfully");
 		} catch (error) {
