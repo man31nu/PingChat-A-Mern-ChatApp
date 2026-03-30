@@ -142,24 +142,28 @@ http://localhost:5173
 ```
 PingChat-A-Mern-ChatApp
 │
-├── backend
-│   ├── controllers
-│   ├── models
-│   ├── routes
-│   ├── middleware
-│   ├── socket
-│   └── uploads
-│
-├── frontend
-│   ├── components
-│   ├── pages
-│   ├── hooks
-│   ├── store
-│   └── assets
-│
-└── README.md
+PingChat
+├── backend/                # Server-side logic
+│   ├── controllers/        # Request handlers & business logic
+│   ├── db/                 # Database connection & configuration
+│   ├── middleware/         # Custom authentication/error functions
+│   ├── models/             # Schema definitions (e.g., Mongoose)
+│   ├── routes/             # API endpoint definitions
+│   ├── socket/             # Real-time communication logic
+│   ├── utils/              # Helper functions
+│   ├── package.json        # Backend dependencies
+│   └── server.js           # Entry point for the backend
+├── frontend/               # Client-side (React + Vite)
+│   ├── public/             # Static assets (favicons, etc.)
+│   ├── src/                # Application source code
+│   ├── .gitignore          # Frontend-specific ignored files
+│   ├── index.html          # Main HTML entry
+│   ├── package.json        # Frontend dependencies
+│   ├── tailwind.config.js  # Styling configuration
+│   └── vite.config.js      # Vite build configuration
+├── .gitignore              # Root-level ignored files (node_modules, .env)
+└── README.md               # Project documentation
 ```
-
 ---
 
 # 📸 Screenshots
