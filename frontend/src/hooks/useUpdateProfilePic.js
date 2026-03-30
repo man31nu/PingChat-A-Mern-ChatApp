@@ -1,6 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../store/useAuthStore";
+import axios from "axios";
 
 const useUpdateProfilePic = () => {
 	const [updating, setUpdating] = useState(false);
@@ -12,12 +13,9 @@ const useUpdateProfilePic = () => {
 			const formData = new FormData();
 			formData.append("profilePic", file);
 
-			const res = await fetch("/api/users/update-profile-pic", {
-				method: "POST",
-				body: formData,
-			});
+			const res = await axios.post("/api/users/update-profile-pic", formData);
 
-			const data = await res.json();
+			const data = res.data;
 			if (data.error) {
 				throw new Error(data.error);
 			}
