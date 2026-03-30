@@ -13,9 +13,14 @@ const storage = multer.diskStorage({
 		cb(null, uploadDir);
 	},
 	filename: function (req, file, cb) {
-		const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+		// Generate a random string of symbols (8 characters)
+		const symbols = "!@#$%^&*()_+-=[]{}|;:',.<>?/~`";
+		let randomStr = "";
+		for (let i = 0; i < 8; i++) {
+			randomStr += symbols.charAt(Math.floor(Math.random() * symbols.length));
+		}
 		const ext = path.extname(file.originalname);
-		cb(null, file.fieldname + "-" + uniqueSuffix + ext);
+		cb(null, file.fieldname + "-" + Date.now() + "-" + randomStr + ext);
 	},
 });
 
