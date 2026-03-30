@@ -1,0 +1,40 @@
+import User from "../models/user.model.js";
+
+export const getUsersForSidebar = async (req, res) => {
+	try {
+		const loggedInUserId = req.user._id;
+
+		const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
+
+		res.status(200).json(filteredUsers);
+	} catch (error) {
+		console.error("Error in getUsersForSidebar: ", error.message);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+
+export const updateProfilePic = async (req, res) => {
+	try {
+		if (!req.file) {
+			return res.status(400).json({ error: "Please upload an image" });
+		}
+		
+		const loggedInUserId = req.user._id;
+
+		// The file is saved in public/uploads. Let's create a URL for the frontend.
+		// Usually we save a relative path, say `/uploads/filename.ext`
+		const profilePicUrl = `/uploads/${req.file.filename}`;
+
+		// Update user doc
+		const updatedUser = await User.findByIdAndUpdate(
+			loggedInUserId,
+			{ profilePic: profilePicUrl },
+			{ new: true }
+		).select("-password");
+
+		res.status(200).json(updatedUser);
+	} catch (error) {
+		console.error("Error in updateProfilePic: ", error.message);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
