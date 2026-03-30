@@ -16,9 +16,9 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://pingchat-a-memchat-app.vercel.app", // Deployed Vercel URL
-  process.env.CLIENT_URL,
+	"http://localhost:5173",
+	"https://pingchat-a-mernchat-app.vercel.com", // Deployed Vercel URL (EXACT spelling from error)
+	process.env.CLIENT_URL,
 ].filter(Boolean);
 
 app.use(cors({
