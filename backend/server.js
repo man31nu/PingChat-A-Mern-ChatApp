@@ -13,6 +13,9 @@ import { app, server } from "./socket/socket.js";
 
 dotenv.config();
 
+// Trust the proxy (Render's load balancer) so express allows secure cookies over 'http' internal routing
+app.set("trust proxy", 1);
+
 const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
