@@ -27,13 +27,13 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
 
 // In case of production, serve static files
-const __dirname = path.resolve();
-app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
+// const __dirname = path.resolve();
+// app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
+// app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-app.use((req, res) => {
-	res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
-});
+// app.use((req, res) => {
+// 	res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+// });
 // ---------------------             --------------------------------------
 server.listen(PORT, () => {
 	connectToMongoDB();
