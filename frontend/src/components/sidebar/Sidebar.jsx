@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import Conversations from "./Conversations";
 import LogoutButton from "./LogoutButton";
 import SearchInput from "./SearchInput";
@@ -13,6 +13,41 @@ const Sidebar = () => {
 	const { theme, setTheme } = useThemeStore();
 	const fileInputRef = useRef(null);
 
+	const [sidebarWidth, setSidebarWidth] = useState(288); // 288px is equivalent to w-72
+	const isResizing = useRef(false);
+
+	const startResizing = useCallback((e) => {
+		isResizing.current = true;
+		document.addEventListener("mousemove", resize);
+		document.addEventListener("mouseup", stopResizing);
+		// Prevent text selection while resizing
+		document.body.style.userSelect = 'none';
+	}, []);
+
+	const resize = useCallback((e) => {
+		if (isResizing.current) {
+			// Limit width between 200px and 600px
+			const newWidth = Math.min(Math.max(e.clientX, 200), 600);
+			setSidebarWidth(newWidth);
+		}
+	}, []);
+
+	const stopResizing = useCallback(() => {
+		isResizing.current = false;
+		document.removeEventListener("mousemove", resize);
+		document.removeEventListener("mouseup", stopResizing);
+		document.body.style.userSelect = '';
+	}, [resize]);
+
+	// Cleanup listeners on unmount
+	useEffect(() => {
+		return () => {
+			document.removeEventListener("mousemove", resize);
+			document.removeEventListener("mouseup", stopResizing);
+			document.body.style.userSelect = '';
+		};
+	}, [resize, stopResizing]);
+
 	const handleImageChange = (e) => {
 		const file = e.target.files[0];
 		if (!file) return;
@@ -20,7 +55,16 @@ const Sidebar = () => {
 	};
 
 	return (
-		<div className='border-r border-gray-200 dark:border-gray-600 p-4 flex flex-col w-72 bg-white/60 dark:bg-black/30 backdrop-blur-sm transition-colors duration-300'>
+		<div 
+			className='relative border-r border-gray-200 dark:border-gray-600 p-4 flex flex-col bg-white/60 dark:bg-black/30 backdrop-blur-sm transition-colors duration-300'
+			style={{ width: `${sidebarWidth}px`, flexShrink: 0 }}
+		>
+			{/* Resizer Handle */}
+			<div 
+				className="absolute top-0 right-0 w-1.5 h-full cursor-col-resize hover:bg-blue-500/50 active:bg-blue-500 transition-colors z-[100] transform translate-x-1/2"
+				onMouseDown={startResizing}
+			/>
+
 			{/* User Profile Info */}
 			<div className="flex items-center gap-3 mb-4 p-2 bg-gray-100 dark:bg-black/20 rounded-xl border border-gray-200 dark:border-gray-700 transition-colors">
 				<div 

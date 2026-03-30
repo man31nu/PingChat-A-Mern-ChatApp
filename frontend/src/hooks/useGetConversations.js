@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
-
+const BASE_URL = import.meta.env.VITE_API_URL;
 const useGetConversations = () => {
 	const [loading, setLoading] = useState(false);
 	const [conversations, setConversations] = useState([]);
@@ -10,7 +10,7 @@ const useGetConversations = () => {
 		const getConversations = async () => {
 			setLoading(true);
 			try {
-				const res = await axios.get("/api/users");
+				const res = await axios.get(`${BASE_URL}/api/users`);
 				const data = res.data;
 				if (data.error) {
 					throw new Error(data.error);
