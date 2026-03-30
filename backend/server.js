@@ -43,10 +43,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
 
-// In case of production, serve static files
-// const __dirname = path.resolve();
-// app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
-// app.use(express.static(path.join(__dirname, "/frontend/dist")));
+// Root route for backend health check
+app.get("/", (req, res) => {
+	res.send("Backend API is running successfully! Please use the Vercel frontend link to access the Chat App.");
+});
 
 // app.use((req, res) => {
 // 	res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
