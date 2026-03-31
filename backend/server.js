@@ -3,6 +3,9 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
@@ -38,6 +41,8 @@ app.use(cors({
 }));
 app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
 app.use(cookieParser());
+// Serve uploaded files (profile pictures, etc.)
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);

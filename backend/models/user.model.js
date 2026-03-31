@@ -20,6 +20,16 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			default: "",
 		},
+		email: {
+			type: String,
+			unique: true,
+			sparse: true,
+			required: false,
+		},
+		bio: {
+			type: String,
+			default: "",
+		},
 	},
 	{ timestamps: true }
 );
