@@ -19,14 +19,10 @@ export const signup = async (req, res) => {
 		const salt = await bcrypt.genSalt(10);
 		const hashedPassword = await bcrypt.hash(password, salt);
 
-		// https://avatar-placeholder.iran.liara.run/
-		const profilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
-
 		const newUser = new User({
 			fullName,
 			username,
 			password: hashedPassword,
-			profilePic,
 		});
 
 		if (newUser) {
@@ -37,7 +33,6 @@ export const signup = async (req, res) => {
 				_id: newUser._id,
 				fullName: newUser.fullName,
 				username: newUser.username,
-				profilePic: newUser.profilePic,
 				token: token,
 			});
 		} else {
@@ -65,7 +60,6 @@ export const login = async (req, res) => {
 			_id: user._id,
 			fullName: user.fullName,
 			username: user.username,
-			profilePic: user.profilePic,
 			token: token,
 		});
 	} catch (error) {

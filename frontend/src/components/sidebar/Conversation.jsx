@@ -17,8 +17,8 @@ const Conversation = ({ conversation, lastIdx }) => {
 				onClick={() => setSelectedConversation(conversation)}
 			>
 				<div className={`relative ${isOnline ? "online" : ""}`}>
-					<div className='w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-black/50'>
-						<img src={conversation.profilePic} alt='user avatar' className="w-full h-full object-cover" />
+					<div className='w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 dark:border-gray-600 flex items-center justify-center bg-teal-500 text-white font-bold text-xl uppercase'>
+						{conversation.fullName?.charAt(0) || "?"}
 					</div>
 					{isOnline && (
 						<span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-gray-900 rounded-full"></span>
