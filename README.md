@@ -13,6 +13,16 @@ It allows users to chat in real time, upload profile avatars, see online users, 
 - Bi-directional communication
 - Messages update instantly without refresh
 
+### ⌨️ Typing Indicators
+- WhatsApp style 'typing ......' indicator
+- Real-time debounced socket events
+- Real-time indicators visible directly inside the chat window and the global sidebar
+
+### ✔️ Message Read Receipts
+- Real-time single (`✓`) and double (`✓✓`) ticks for Sent & Delivered statuses
+- Real-time blue double ticks for Seen statuses
+- Offline delivery queue perfectly handled for robust ticking exactly like WhatsApp
+
 ### 🔐 Authentication System
 - Secure login and signup
 - Password hashing using **bcrypt**

@@ -1,6 +1,7 @@
 import { useAuthStore } from "../../store/useAuthStore";
 import useConversation from "../../store/useConversation";
 import { extractTime } from "../../utils/extractTime";
+import { Check, CheckCheck } from "lucide-react";
 
 const Message = ({ message }) => {
 	const { authUser } = useAuthStore();
@@ -25,7 +26,16 @@ const Message = ({ message }) => {
 					<div className={`px-4 py-2 rounded-2xl border shadow-sm ${msgBgClass} ${shakeClass} break-words transition-colors`}>
 						{message.message}
 					</div>
-					<div className='text-xs text-gray-500 dark:text-gray-400 flex gap-1 items-center font-medium transition-colors'>{formattedTime}</div>
+					<div className='text-xs text-gray-500 dark:text-gray-400 flex gap-1 items-center font-medium transition-colors'>
+						{formattedTime}
+						{fromMe && (
+							<span className='ml-1 flex items-center'>
+								{message.status === "sent" && <Check className="w-3 h-3 text-gray-400" />}
+								{message.status === "delivered" && <CheckCheck className="w-3 h-3 text-gray-400" />}
+								{message.status === "seen" && <CheckCheck className="w-3 h-3 text-blue-500" />}
+							</span>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>

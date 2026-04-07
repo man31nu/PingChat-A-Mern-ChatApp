@@ -2,7 +2,7 @@ import { useSocketContext } from "../../context/SocketContext";
 import useConversation from "../../store/useConversation";
 
 const Conversation = ({ conversation, lastIdx }) => {
-	const { selectedConversation, setSelectedConversation } = useConversation();
+	const { selectedConversation, setSelectedConversation, typingUsers } = useConversation();
 
 	const isSelected = selectedConversation?._id === conversation._id;
 	const { onlineUsers } = useSocketContext();
@@ -25,9 +25,16 @@ const Conversation = ({ conversation, lastIdx }) => {
 					)}
 				</div>
 
-				<div className='flex flex-col flex-1'>
+				<div className='flex flex-col flex-1 pb-1'>
 					<div className='flex gap-3 justify-between'>
-						<p className='font-bold text-gray-800 dark:text-gray-200 transition-colors'>{conversation.fullName}</p>
+						<p className='font-bold text-gray-800 dark:text-gray-200 transition-colors flex items-center gap-2 flex-wrap'>
+							{conversation.fullName}
+							{typingUsers?.includes(conversation._id) && (
+								<span className='text-xs font-normal text-blue-500 italic animate-pulse'>
+									typing ......
+								</span>
+							)}
+						</p>
 					</div>
 				</div>
 			</div>

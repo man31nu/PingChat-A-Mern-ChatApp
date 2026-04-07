@@ -24,13 +24,17 @@ export const sendMessage = async (req, res) => {
 			message,
 		});
 
+		const receiverSocketId = getReceiverSocketId(receiverId);
+		if (receiverSocketId) {
+			newMessage.status = "delivered";
+		}
+
 		if (newMessage) {
 			conversation.messages.push(newMessage._id);
 		}
 
 		await Promise.all([conversation.save(), newMessage.save()]);
 
-		const receiverSocketId = getReceiverSocketId(receiverId);
 		if (receiverSocketId) {
 			io.to(receiverSocketId).emit("newMessage", newMessage);
 		}
@@ -54,6 +58,28 @@ export const getMessages = async (req, res) => {
 		if (!conversation) return res.status(200).json([]);
 
 		const messages = conversation.messages;
+
+		// Mark any unseen messages sent to this user as 'seen'
+		let updatedToSeenIndices = [];
+		for (let i = 0; i < messages.length; i++) {
+			let m = messages[i];
+			if (m.receiverId.toString() === senderId.toString() && m.status !== "seen") {
+				m.status = "seen";
+				updatedToSeenIndices.push(m._id);
+			}
+		}
+
+		if (updatedToSeenIndices.length > 0) {
+			await Message.updateMany({ _id: { $in: updatedToSeenIndices } }, { status: "seen" });
+			const userToChatSocketId = getReceiverSocketId(userToChatId);
+			if (userToChatSocketId) {
+				// Tell the other user that their messages were seen
+				io.to(userToChatSocketId).emit("messages_status_update", {
+					receiverId: senderId,
+					status: "seen",
+				});
+			}
+		}
 
 		res.status(200).json(messages);
 	} catch (error) {
